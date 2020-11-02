@@ -1,0 +1,471 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Real Estate User microservice",
+    "version": "1.0.0",
+    "title": "Real Estate User microservice"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User microservice",
+      "description": "Fulfill real estates and consult other estates available on the platform"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "User microservice"
+        ],
+        "summary": "Add user",
+        "requestBody": {
+          "description": "Add user Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userRequestBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "An error occurred while inserting the user"
+          }
+        }
+      }
+    },
+    "/users/{id_user}": {
+      "put": {
+        "tags": [
+          "User microservice"
+        ],
+        "summary": "Edit user",
+        "parameters": [
+          {
+            "name": "id_user",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user that we want to edit",
+            "schema": {
+              "$ref": "#/components/schemas/id_user"
+            },
+            "type": "integer"
+          }
+        ],
+        "requestBody": {
+          "description": "Edit user Post Object",
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/userRequestBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "An error occurred while updating the user"
+          }
+        }
+      }
+    },
+    "/estates/{city}": {
+      "get": {
+        "tags": [
+          "User microservice"
+        ],
+        "summary": "Get estates by city",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "path",
+            "required": true,
+            "description": "city",
+            "schema": {
+              "$ref": "#/components/schemas/city"
+            },
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Estates not found"
+          },
+          "500": {
+            "description": "An error occurred while getting estates"
+          }
+        }
+      }
+    },
+    "/users/{id_user}/estates": {
+      "post": {
+        "tags": [
+          "User microservice"
+        ],
+        "summary": "Add estate",
+        "parameters": [
+          {
+            "name": "id_user",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user",
+            "schema": {
+              "$ref": "#/components/schemas/id_user"
+            },
+            "type": "integer"
+          }
+        ],
+        "requestBody": {
+          "description": "Add Estate Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/estateAddRequestBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "An error occurred while saving your estate"
+          }
+        }
+      }
+    },
+    "/users/{id_user}/estates/{id_estate}": {
+      "put": {
+        "tags": [
+          "User microservice"
+        ],
+        "summary": "Edit estate of current owner",
+        "parameters": [
+          {
+            "name": "id_user",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user",
+            "schema": {
+              "$ref": "#/components/schemas/id_user"
+            },
+            "type": "integer"
+          },
+          {
+            "name": "id_estate",
+            "in": "path",
+            "required": true,
+            "description": "ID of the estate",
+            "schema": {
+              "$ref": "#/components/schemas/id_estate"
+            },
+            "type": "integer"
+          }
+        ],
+        "requestBody": {
+          "description": "Edit estate of current owner Post Object",
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/estateEditRequestBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "500": {
+            "description": "An error occurred while updating the estate"
+          }
+        }
+      }
+    },
+    "/users/{id_user}/estates/{id_estate}/rooms": {
+      "post": {
+        "tags": [
+          "User microservice"
+        ],
+        "summary": "Add room",
+        "parameters": [
+          {
+            "name": "id_user",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user",
+            "schema": {
+              "$ref": "#/components/schemas/id_user"
+            },
+            "type": "integer"
+          },
+          {
+            "name": "id_estate",
+            "in": "path",
+            "required": true,
+            "description": "ID of the estate",
+            "schema": {
+              "$ref": "#/components/schemas/id_estate"
+            },
+            "type": "integer"
+          }
+        ],
+        "requestBody": {
+          "description": "Add room Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/roomRequestBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "500": {
+            "description": "An error occurred while inserting the room"
+          }
+        }
+      }
+    },
+    "/users/{id_user}/estates/{id_estate}/rooms/{id_room}": {
+      "put": {
+        "tags": [
+          "User microservice"
+        ],
+        "summary": "Edit room",
+        "parameters": [
+          {
+            "name": "id_user",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user",
+            "schema": {
+              "$ref": "#/components/schemas/id_user"
+            },
+            "type": "integer"
+          },
+          {
+            "name": "id_estate",
+            "in": "path",
+            "required": true,
+            "description": "ID of the estate",
+            "schema": {
+              "$ref": "#/components/schemas/id_estate"
+            },
+            "type": "integer"
+          },
+          {
+            "name": "id_room",
+            "in": "path",
+            "required": true,
+            "description": "ID of the room",
+            "schema": {
+              "$ref": "#/components/schemas/id_room"
+            },
+            "type": "integer"
+          }
+        ],
+        "requestBody": {
+          "description": "Edit room Post Object",
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/roomRequestBody"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Please make sure the id is correct"
+          },
+          "403": {
+            "description": "Access denied"
+          },
+          "500": {
+            "description": "An error occurred while inserting the room"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "id_user": {
+        "properties": {
+          "id_user": {
+            "type": "integer"
+          }
+        }
+      },
+      "id_estate": {
+        "properties": {
+          "id_estate": {
+            "type": "integer"
+          }
+        }
+      },
+      "city": {
+        "properties": {
+          "city": {
+            "type": "string"
+          }
+        }
+      },
+      "id_room": {
+        "properties": {
+          "id_room": {
+            "type": "integer"
+          }
+        }
+      },
+      "userRequestBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "string"
+          },
+          "last_name": {
+            "type": "string",
+            "format": "string"
+          },
+          "birth_date": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "estateAddRequestBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "string"
+          },
+          "description": {
+            "type": "string",
+            "format": "string"
+          },
+          "es_type": {
+            "type": "string",
+            "format": "string"
+          },
+          "city": {
+            "type": "string",
+            "format": "string"
+          },
+          "id_user": {
+            "type": "integer",
+            "format": "integer"
+          }
+        }
+      },
+      "estateEditRequestBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "string"
+          },
+          "description": {
+            "type": "string",
+            "format": "string"
+          },
+          "es_type": {
+            "type": "string",
+            "format": "string"
+          },
+          "city": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "roomRequestBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "format": "string"
+          },
+          "characteristic": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    }
+  }
+}
